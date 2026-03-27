@@ -5,6 +5,8 @@ import com.ctw.spring_jpa_dept_employees.dtos.funcionario.FuncionarioResponseDto
 import com.ctw.spring_jpa_dept_employees.model.Funcionario;
 import com.ctw.spring_jpa_dept_employees.service.FuncionarioService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,48 +19,49 @@ public class FuncionarioController {
     private final FuncionarioService funcionarioService;
 
     @PostMapping
-    public FuncionarioResponseDto criarFuncionario(
+    public ResponseEntity<FuncionarioResponseDto> criarFuncionario(
             @RequestBody FuncionarioRequestDto funcionarioRequestDto
     ){
-        return funcionarioService.cadastrarFuncionario(funcionarioRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(funcionarioService.cadastrarFuncionario(funcionarioRequestDto));
     }
 
     @GetMapping
-    public List<FuncionarioResponseDto> buscarFuncionarios(){
-        return funcionarioService.listarFuncionarios();
+    public ResponseEntity<List<FuncionarioResponseDto>> buscarFuncionarios(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(funcionarioService.listarFuncionarios());
     }
 
     @GetMapping("/{id}")
-    public FuncionarioResponseDto buscarFuncionarioPorID(
+    public ResponseEntity<FuncionarioResponseDto> buscarFuncionarioPorID(
             @PathVariable Long id
     ){
-        return funcionarioService.buscarFuncionarioPorID(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(funcionarioService.buscarFuncionarioPorID(id));
     }
 
     @GetMapping("/departamento/{departamentoId}")
-    public List<FuncionarioResponseDto> buscarFuncionariosPorDepartamentoID(
+    public ResponseEntity<List<FuncionarioResponseDto>> buscarFuncionariosPorDepartamentoID(
             @PathVariable Long departamentoId
     ){
-        return funcionarioService.buscarFuncionariosPorDepartamentoID(departamentoId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(funcionarioService.buscarFuncionariosPorDepartamentoID(departamentoId));
     }
 
     @GetMapping
-    public List<FuncionarioResponseDto> buscarFuncionariosPeloNome(
+    public ResponseEntity<List<FuncionarioResponseDto>> buscarFuncionariosPeloNome(
             @RequestParam String nome
     ){
-        return funcionarioService.buscarFuncionarioPeloNome(nome);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(funcionarioService.buscarFuncionarioPeloNome(nome));
     }
 
     @GetMapping
-    public FuncionarioResponseDto buscarPeloIdENome(
+    public ResponseEntity<FuncionarioResponseDto> buscarPeloIdENome(
             @RequestParam Long id,
             @RequestParam String nome
     ){
-        return funcionarioService.buscarFuncionarioPorIdENome(id,nome);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(funcionarioService.buscarFuncionarioPorIdENome(id,nome));
     }
-
-
-
-
-
 }

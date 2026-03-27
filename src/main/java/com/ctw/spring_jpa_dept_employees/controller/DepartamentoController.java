@@ -7,6 +7,8 @@ import com.ctw.spring_jpa_dept_employees.model.Funcionario;
 import com.ctw.spring_jpa_dept_employees.service.DepartamentoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,23 +21,26 @@ public class DepartamentoController {
     private final DepartamentoService departamentoService;
 
     @PostMapping
-    public DepartamentoResponseDto criarDepartamento(
+    public ResponseEntity<DepartamentoResponseDto> criarDepartamento(
             @Valid @RequestBody DepartamentoRequestDto departamentoRequestDto,
             @RequestParam Long funcionarioId
     ){
-        return departamentoService.criarDepartamento(departamentoRequestDto,funcionarioId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(departamentoService.criarDepartamento(departamentoRequestDto,funcionarioId));
     }
 
     @GetMapping
-    public List<DepartamentoResponseDto> buscarDepartamentos(){
-        return departamentoService.buscarDepartamentos();
+    public ResponseEntity<List<DepartamentoResponseDto>> buscarDepartamentos(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(departamentoService.buscarDepartamentos());
     }
 
     @GetMapping("/{id}")
-    public DepartamentoResponseDto buscarDepartamentoPorID(
+    public ResponseEntity<DepartamentoResponseDto> buscarDepartamentoPorID(
             @PathVariable Long id
     ){
-        return departamentoService.buscarDepartamentoPorID(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(departamentoService.buscarDepartamentoPorID(id));
     }
 
 }
